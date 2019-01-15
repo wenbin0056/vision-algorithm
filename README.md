@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #vision-algorithm
 
 ##ubuntu下OpenCV的安装
@@ -36,13 +35,4 @@
 
 
 
-=======
-# vision-algorithm
-
-ubuntu下OpenCV的安装
-下载：https://opencv.org/releases.html
-下载source。
-
-sudo apt-get install cmake 
->>>>>>> 79f02340745d160730a8b29b54c4d7b82e335ad5
 

@@ -1,6 +1,9 @@
 #vision-algorithm
 
-##ubuntu下OpenCV的安装
+
+#*Opencv*
+===
+### ubuntu下OpenCV的安装
 * 下载：https://opencv.org/releases.html 下载source。3.4.1
 
 >#####升级cmake版本
@@ -29,6 +32,17 @@
 * cd  my_build_dir
 * cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/usr/local ..
 *
+====
+### Opencv Function
+
+#### 边缘识别
+> 
+* 13
+
+####  123
+
+====
+
 
 
 

@@ -34,9 +34,15 @@
 * cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/usr/local ..
 * make 
 * sudo make install
+* export LD_LIBRARY_PATH=/usr/local/lib/
 *
 ====
 ### Opencv Function
+
+### API文档
+>
+1. https://docs.opencv.org/2.4.9/modules/refman.html
+* 
 
 #### 边缘识别
 > 

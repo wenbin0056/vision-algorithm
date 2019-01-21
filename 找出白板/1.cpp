@@ -252,6 +252,23 @@ int detect_rect()
 	return 0;	
 }
 
+int img_threshold()
+{
+	IplImage* src = NULL;  
+	IplImage* img = NULL;  
+
+
+	src = cvLoadImage ("whitePanle.jpg", 1);  
+	img = cvCreateImage (cvGetSize(src), IPL_DEPTH_8U, 1);  
+
+	cvCvtColor (src, img, CV_BGR2GRAY);  
+	
+	cvThreshold (img, img, 150, 300, CV_THRESH_BINARY);
+
+	cvSaveImage("whitePanle_threshold.jpg",  img );
+
+	return 0;
+}
 
 int detect_draw_Contours() 
 {
@@ -269,7 +286,9 @@ int detect_draw_Contours()
 	img = cvCreateImage (cvGetSize(src), IPL_DEPTH_8U, 1);  
 	dst = cvCreateImage (cvGetSize(src), src->depth, src->nChannels);
 
-	cvCvtColor (src, img, CV_BGR2GRAY);  cvThreshold (img, img, 100, 200, CV_THRESH_BINARY);
+	cvCvtColor (src, img, CV_BGR2GRAY);  
+	
+	cvThreshold (img, img, 150, 200, CV_THRESH_BINARY);
 
 	cvFindContours (img, storage, &contour, sizeof(CvContour), CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE);
 
@@ -278,7 +297,8 @@ int detect_draw_Contours()
 		CvTreeNodeIterator iterator;
 		cvInitTreeNodeIterator (&iterator, contour,  1);
 		while (0 != (cont = (CvSeq*)cvNextTreeNode (&iterator)))  
-		{    mcont = cvApproxPoly (cont, sizeof(CvContour), storage1, CV_POLY_APPROX_DP, cvContourPerimeter(cont)*0.02,0);   
+		{    
+			mcont = cvApproxPoly (cont, sizeof(CvContour), storage1, CV_POLY_APPROX_DP, cvContourPerimeter(cont)*0.02,0);   
 			cvDrawContours (dst, mcont, CV_RGB(255,0,0),CV_RGB(0,0,100),1,2,8,cvPoint(0,0));   
 		}  
 	}
@@ -289,15 +309,32 @@ int detect_draw_Contours()
 
 	cvSaveImage("whitePanle_contours.jpg",  dst );
 
-	cvReleaseMemStorage (&storage);  cvReleaseImage (&src);  cvReleaseImage (&img);  cvReleaseImage (&dst);
+	cvReleaseMemStorage (&storage);  
+	cvReleaseMemStorage (&storage1);  	
+	cvReleaseImage (&src);
+	cvReleaseImage (&img);
+	cvReleaseImage (&dst);
 
 	return 0; 
 }
+
+int img_filter()
+{
+	
+	return 0;
+}
+
+int detect_white_panel()
+{
+
+	return 0;	
+}
+
 int main()
 {
 	char c = 0;
 
-
+	//
 	detect_draw_Contours();
 	//detect_rect();
 	//detect_rect1();	
@@ -322,6 +359,9 @@ int main()
 			case '4':
 				//detect_rect();
 				detect_rect1();						
+				break;
+			case '5':
+				img_threshold();
 				break;
 			case 'q':
 			case 'Q':

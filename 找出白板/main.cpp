@@ -288,7 +288,7 @@ int detect_draw_Contours()
 
 	cvCvtColor (src, img, CV_BGR2GRAY);  
 	
-	cvThreshold (img, img, 150, 200, CV_THRESH_BINARY);
+	cvThreshold (img, img, 190, 200, CV_THRESH_BINARY);
 
 	cvFindContours (img, storage, &contour, sizeof(CvContour), CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE);
 
@@ -300,7 +300,7 @@ int detect_draw_Contours()
 		{    
 			mcont = cvApproxPoly (cont, sizeof(CvContour), storage1, CV_POLY_APPROX_DP, cvContourPerimeter(cont)*0.02,0);   
 			cvDrawContours (dst, mcont, CV_RGB(255,0,0),CV_RGB(0,0,100),1,2,8,cvPoint(0,0));   
-		}  
+		}
 	}
 
 	//cvNamedWindow ("Contour", 1);  cvShowImage ("Contour", dst);
@@ -334,12 +334,56 @@ int img_filter()
 	boxFilter(img, out, -1, Size(5, 5));//-1指原图深度，方框滤波
 	
 	cv::imwrite("whitePanle_filter.jpg", out);
-	
+
 	return 0;
 }
 
 int detect_white_panel()
 {
+	IplImage* src = NULL;  
+	IplImage* img = NULL;  
+	IplImage* dst = NULL;
+
+	CvMemStorage* storage = cvCreateMemStorage (0);  
+	CvMemStorage* storage1 = cvCreateMemStorage (0);  
+	CvSeq* contour = 0;  
+	CvSeq* cont;  
+	CvSeq* mcont;
+
+	src = cvLoadImage ("whitePanle.jpg", 1);  
+	img = cvCreateImage (cvGetSize(src), IPL_DEPTH_8U, 1);  
+	dst = cvCreateImage (cvGetSize(src), src->depth, src->nChannels);
+
+	cvCvtColor (src, img, CV_BGR2GRAY);  
+	
+	cvThreshold (img, img, 150, 200, CV_THRESH_BINARY);
+
+	//cvSmooth( img, img, CV_GAUSSIAN, 5,5 );
+
+	cvFindContours (img, storage, &contour, sizeof(CvContour), CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE);
+
+	if (contour)  
+	{   
+		CvTreeNodeIterator iterator;
+		cvInitTreeNodeIterator (&iterator, contour,  1);
+		while (0 != (cont = (CvSeq*)cvNextTreeNode (&iterator)))  
+		{    
+			mcont = cvApproxPoly (cont, sizeof(CvContour), storage1, CV_POLY_APPROX_DP, cvContourPerimeter(cont)*0.02,0);   
+			cvDrawContours (dst, mcont, CV_RGB(255,0,0),CV_RGB(0,0,100),1,2,8,cvPoint(0,0));   
+		}
+	}
+
+	//cvNamedWindow ("Contour", 1);  cvShowImage ("Contour", dst);
+
+	//cvWaitKey (0);
+
+	cvSaveImage("whitePanle_out.jpg",  dst );
+
+	cvReleaseMemStorage (&storage);  
+	cvReleaseMemStorage (&storage1);  	
+	cvReleaseImage (&src);
+	cvReleaseImage (&img);
+	cvReleaseImage (&dst);
 
 	return 0;	
 }
@@ -347,14 +391,13 @@ int detect_white_panel()
 int main()
 {
 
+	detect_white_panel();
 	
-	//
-	detect_draw_Contours();
-	//detect_rect();
-	//detect_rect1();	
 
 	return 0;
 
+
+	//sample
 	char c = 0;
 	
 	while(1)
@@ -380,6 +423,9 @@ int main()
 				break;
 			case '6':
 				img_filter();
+				break;		
+			case '7':
+				detect_draw_Contours();
 				break;				
 			case 'q':
 			case 'Q':

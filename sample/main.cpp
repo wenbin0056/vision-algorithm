@@ -339,6 +339,8 @@ int img_filter()
 	return 0;
 }
 
+
+
 int detect_white_panel()
 {
 	IplImage* src = NULL;  

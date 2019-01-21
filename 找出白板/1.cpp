@@ -123,12 +123,12 @@ int dect_Edge_Line()
 
 static double angle( CvPoint* pt1, CvPoint* pt2, CvPoint* pt0 )
 {    
-    double dx1 = pt1->x - pt0->x; 
-    double dy1 = pt1->y - pt0->y;  
-    double dx2 = pt2->x - pt0->x;  
-    double dy2 = pt2->y - pt0->y;    
-    double angle_line = (dx1*dx2 + dy1*dy2)/sqrt((dx1*dx1 + dy1*dy1)*(dx2*dx2 + dy2*dy2) + 1e-10);//余弦值
-    return acos(angle_line)*180/3.141592653; 
+	double dx1 = pt1->x - pt0->x; 
+	double dy1 = pt1->y - pt0->y;  
+	double dx2 = pt2->x - pt0->x;  
+	double dy2 = pt2->y - pt0->y;    
+	double angle_line = (dx1*dx2 + dy1*dy2)/sqrt((dx1*dx1 + dy1*dy1)*(dx2*dx2 + dy2*dy2) + 1e-10);//余弦值
+	return acos(angle_line)*180/3.141592653; 
 }
 
 
@@ -138,7 +138,7 @@ int detect_rect1()
 	int N = 6;  //阈值分级
 	CvMemStorage* storage = 0;
 	storage = cvCreateMemStorage(0);
-	
+
 	IplImage* img = cvLoadImage("whitePanle.jpg");
 	CvSize sz = cvSize( img->width & -2, img->height & -2 );
 	IplImage* timg = cvCloneImage( img );//拷贝一次img
@@ -167,7 +167,9 @@ int detect_rect1()
 			//不同阈值下二值化
 			cvThreshold( tgray, gray, (l+1)*255/N, 255, CV_THRESH_BINARY );
 
+
 			cvFindContours( gray, storage, &contours, sizeof(CvContour),CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE, cvPoint(0,0) );          
+
 			while( contours )    
 			{ //多边形逼近             
 				result = cvApproxPoly( contours, sizeof(CvContour), storage,CV_POLY_APPROX_DP, cvContourPerimeter(contours)*0.02, 0 ); 
@@ -194,7 +196,7 @@ int detect_rect1()
 		} 
 	}
 
-	
+
 	cvReleaseImage( &gray );   
 	cvReleaseImage( &pyr );  
 	cvReleaseImage( &tgray );  
@@ -249,13 +251,88 @@ int detect_rect()
 
 	return 0;	
 }
+
+
+int detect_draw_Contours() 
+{
+	IplImage* src = NULL;  
+	IplImage* img = NULL;  
+	IplImage* dst = NULL;
+
+	CvMemStorage* storage = cvCreateMemStorage (0);  
+	CvMemStorage* storage1 = cvCreateMemStorage (0);  
+	CvSeq* contour = 0;  
+	CvSeq* cont;  
+	CvSeq* mcont;
+
+	src = cvLoadImage ("whitePanle.jpg", 1);  
+	img = cvCreateImage (cvGetSize(src), IPL_DEPTH_8U, 1);  
+	dst = cvCreateImage (cvGetSize(src), src->depth, src->nChannels);
+
+	cvCvtColor (src, img, CV_BGR2GRAY);  cvThreshold (img, img, 100, 200, CV_THRESH_BINARY);
+
+	cvFindContours (img, storage, &contour, sizeof(CvContour), CV_RETR_LIST, CV_CHAIN_APPROX_SIMPLE);
+
+	if (contour)  
+	{   
+		CvTreeNodeIterator iterator;
+		cvInitTreeNodeIterator (&iterator, contour,  1);
+		while (0 != (cont = (CvSeq*)cvNextTreeNode (&iterator)))  
+		{    mcont = cvApproxPoly (cont, sizeof(CvContour), storage1, CV_POLY_APPROX_DP, cvContourPerimeter(cont)*0.02,0);   
+			cvDrawContours (dst, mcont, CV_RGB(255,0,0),CV_RGB(0,0,100),1,2,8,cvPoint(0,0));   
+		}  
+	}
+
+	//cvNamedWindow ("Contour", 1);  cvShowImage ("Contour", dst);
+
+	//cvWaitKey (0);
+
+	cvSaveImage("whitePanle_contours.jpg",  dst );
+
+	cvReleaseMemStorage (&storage);  cvReleaseImage (&src);  cvReleaseImage (&img);  cvReleaseImage (&dst);
+
+	return 0; 
+}
 int main()
 {
-	//drawLine();
-	//detectEdge_Canny();
-	//dect_Edge_Line();
+	char c = 0;
+
+
+	detect_draw_Contours();
 	//detect_rect();
-	detect_rect1();
+	//detect_rect1();	
+
+	return 0;
+
+
+	while(1)
+	{
+		c = getchar();
+		switch(c)
+		{
+			case '1':
+				drawLine();
+				break;
+			case '2':
+				detectEdge_Canny();				
+				break;
+			case '3':
+				dect_Edge_Line();			
+				break;
+			case '4':
+				//detect_rect();
+				detect_rect1();						
+				break;
+			case 'q':
+			case 'Q':
+				return 0;
+		}
+
+	}
+
 	return 0;
 }
+
+
+
 

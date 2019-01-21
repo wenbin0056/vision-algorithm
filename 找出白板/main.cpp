@@ -205,6 +205,7 @@ int detect_rect1()
 	return 0;
 
 }
+
 int detect_rect()
 {
 	Mat src, dst, color_dst;
@@ -351,12 +352,16 @@ int detect_white_panel()
 	CvSeq* mcont;
 
 	src = cvLoadImage ("whitePanle.jpg", 1);  
+
+	
 	img = cvCreateImage (cvGetSize(src), IPL_DEPTH_8U, 1);  
 	dst = cvCreateImage (cvGetSize(src), src->depth, src->nChannels);
 
 	cvCvtColor (src, img, CV_BGR2GRAY);  
 	
-	cvThreshold (img, img, 150, 200, CV_THRESH_BINARY);
+	cvThreshold (img, img, 150, 300, CV_THRESH_BINARY);
+
+	cvCanny(img, img, 50, 200, 3);
 
 	//cvSmooth( img, img, CV_GAUSSIAN, 5,5 );
 
@@ -369,7 +374,48 @@ int detect_white_panel()
 		while (0 != (cont = (CvSeq*)cvNextTreeNode (&iterator)))  
 		{    
 			mcont = cvApproxPoly (cont, sizeof(CvContour), storage1, CV_POLY_APPROX_DP, cvContourPerimeter(cont)*0.02,0);   
+			if(mcont->total != 4)
+				continue;
+
+
+			if(fabs(cvContourArea(mcont,CV_WHOLE_SEQ)) < 5000)
+			{
+				continue;
+			}
+
+			
+			#if 1
+			static int j = 0;
+			int s_max = 0, s_min = 180, t = 0;
+			j++;
+			for(int i = 0; i < mcont->total; i++)
+			{
+				if(i >= 2)
+				{
+					t = fabs(angle( (CvPoint*)cvGetSeqElem( mcont, i ),(CvPoint*)cvGetSeqElem( mcont, i-2 ),(CvPoint*)cvGetSeqElem( mcont, i-1 )));   	
+					s_max = s_max > t ? s_max : t; 
+					s_min = s_min < t ? s_min : t; 					
+					//CvPoint *p  =  (CvPoint*)cvGetSeqElem( mcont, i );
+					//printf("[%d],%d/total=%d, x=%d,y=%d\n", j,i,mcont->total, p->x, p->y);
+				}
+			}
+			//if(s_max > 100 || s_min < 90)
+				//continue;
+			
+			#endif
+
+			for(int i = 0; i < mcont->total; i++)
+			{
+				CvPoint *p  =  (CvPoint*)cvGetSeqElem( mcont, i );
+				printf("[%d],%d/total=%d, x=%d,y=%d\n", j,i,mcont->total, p->x, p->y);
+			}			
+			
 			cvDrawContours (dst, mcont, CV_RGB(255,0,0),CV_RGB(0,0,100),1,2,8,cvPoint(0,0));   
+
+
+
+
+
 		}
 	}
 

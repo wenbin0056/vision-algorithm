@@ -4,13 +4,11 @@
 #*Opencv*
 ===
 ### ubuntu下OpenCV的安装
-* 下载：https://opencv.org/releases.html 下载source。2.4.13.6 /3.4.1
+* 下载：https://opencv.org/releases.html 下载source。3.4.1
 
 >#####升级cmake版本
 1. wget https://cmake.org/files/v3.12/cmake-3.12.0.tar.gz (g++版本要求高，使用下面低版本的)
 * wget https://cmake.org/files/v2.8/cmake-2.8.12.2.tar.gz --no-check-certificate
-*  tar -xvf cmake-2.8.12.2.tar.gz 
-* cd cmake-2.8.12.2/ 
 2. ./bootstrap --prefix=/usr
 3. make
 4. sudo make install
@@ -52,11 +50,16 @@ CvMat
 
 在图片上画根线
 
+分割算法
+GrabCut
 
+直线检测
 
 #### 边缘识别
 > 
 * 13
+
+
 
 ####  123
 

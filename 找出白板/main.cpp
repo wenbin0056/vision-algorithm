@@ -413,7 +413,7 @@ int detect_white_panel()
 				p1  =  (CvPoint*)cvGetSeqElem( mcont, 2 );				
 				w = fabs(p->x - p1->x);				
 
-				printf("%f\n",w/h);
+				//printf("%f\n",w/h);
 				if(w/h > 2.5)
 				{
 					continue;
@@ -426,10 +426,11 @@ int detect_white_panel()
 			for(int i = 0; i < mcont->total; i++)
 			{
 				CvPoint *p  =  (CvPoint*)cvGetSeqElem( mcont, i );
-				printf("[%d],%d/total=%d, x=%d,y=%d\n", j,i,mcont->total, p->x, p->y);
+				//printf("[%d],%d/total=%d, x=%d,y=%d\n", j,i,mcont->total, p->x, p->y);
 			}			
 			
-			cvDrawContours (dst, mcont, CV_RGB(255,0,0),CV_RGB(0,0,100),1,2,8,cvPoint(0,0));   
+			//cvDrawContours (dst, mcont, CV_RGB(255,0,0),CV_RGB(0,0,100),1,2,8,cvPoint(0,0));   
+			cvDrawContours (src, mcont, CV_RGB(255,0,0),CV_RGB(0,0,100),1,2,8,cvPoint(0,0));   			
 
 
 
@@ -443,6 +444,7 @@ int detect_white_panel()
 	//cvWaitKey (0);
 
 	cvSaveImage("whitePanle_out.jpg",  dst );
+	cvSaveImage("whitePanle_src_out.jpg",  src );	
 
 	cvReleaseMemStorage (&storage);  
 	cvReleaseMemStorage (&storage1);  	

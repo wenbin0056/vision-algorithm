@@ -322,19 +322,12 @@ int img_filter()
 {
 	Mat img = imread("whitePanle.jpg");
 	Mat out;
-
-	//medianBlur(img, out, 7);//中值滤波，第三个参数表示孔径的线性尺寸，它的值必须是大于1的奇数
-
-	//bilateralFilter(img, out, 25, 25 * 2, 25 / 2);//双边滤波
-
-	//GaussianBlur(img, out, Size(3, 3), 0, 0); // 高斯滤波
-
-	//blur(img, out,Size(5, 5));//-1指原图深度 ，均值滤波
-
-	boxFilter(img, out, -1, Size(5, 5));//-1指原图深度，方框滤波
 	
+	medianBlur(img, out, 7);//第三个参数表示孔径的线性尺寸，它的值必须是大于1的奇数
+	
+	//cvSaveImage("whitePanle_filter.jpg",  out );
 	cv::imwrite("whitePanle_filter.jpg", out);
-	
+	123
 	return 0;
 }
 
@@ -347,16 +340,16 @@ int detect_white_panel()
 int main()
 {
 
-	
-	//
-	detect_draw_Contours();
+	img_filter();
+
+	//detect_draw_Contours();
 	//detect_rect();
 	//detect_rect1();	
 
 	return 0;
 
+
 	char c = 0;
-	
 	while(1)
 	{
 		c = getchar();
@@ -378,9 +371,6 @@ int main()
 			case '5':
 				img_threshold();
 				break;
-			case '6':
-				img_filter();
-				break;				
 			case 'q':
 			case 'Q':
 				return 0;

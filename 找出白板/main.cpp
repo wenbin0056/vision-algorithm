@@ -404,6 +404,25 @@ int detect_white_panel()
 			
 			#endif
 
+
+			{
+				double w, h =0.0;
+				CvPoint *p  =  (CvPoint*)cvGetSeqElem( mcont, 0 );
+				CvPoint *p1  =  (CvPoint*)cvGetSeqElem( mcont, 1 );
+				h = fabs(p->y - p1->y);
+				p1  =  (CvPoint*)cvGetSeqElem( mcont, 2 );				
+				w = fabs(p->x - p1->x);				
+
+				printf("%f\n",w/h);
+				if(w/h > 2.5)
+				{
+					continue;
+				}
+				
+			}
+
+			
+
 			for(int i = 0; i < mcont->total; i++)
 			{
 				CvPoint *p  =  (CvPoint*)cvGetSeqElem( mcont, i );

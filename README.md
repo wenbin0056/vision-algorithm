@@ -35,8 +35,28 @@
 * make 
 * sudo make install
 * export LD_LIBRARY_PATH=/usr/local/lib/
-*
-====
+
+
+
+### 嵌入式移植入OPENCV
+===
+> 
+* 解压。
+* cd opencv-2.4.13.6/
+* mkdir /usr/local/opencv/install_opencv
+* mkdir /usr/local/opencv/config_opencv
+* sudo cmake-gui 
+* source code：/work/arm-opencv/opencv-2.4.13.6
+* build：/usr/local/opencv/config_opencv
+* configure-> unix Makefile -> specify option for cross-cpmpiling
+* LINUX 4.9.37
+* /opt/hisi-linux/x86-arm/aarch64-himix100-linux/bin/aarch64-himix100-linux-gcc
+* /opt/hisi-linux/x86-arm/aarch64-himix100-linux/bin/aarch64-himix100-linux-g++
+* finish
+
+
+
+
 ### Opencv Function
 
 ### API文档

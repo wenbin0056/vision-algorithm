@@ -119,99 +119,8 @@ void on_SobelType(int ,void *)
 #endif
 #if 0
 int main()
-{
-/*
-	//read jpg
-	Mat src, src_gray;
-	Mat dst;
 
 
-	int p[3];	
-	
-	IplImage *img = cvLoadImage("whitePanle.jpg");	
-	
-	p[0] = CV_IMWRITE_JPEG_QUALITY;	
-	p[1] = 10;	
-	p[2] = 0;	
-	
-	//cvSaveImage("out1.jpg", img, p);
-
-
-	
-	 Canny(edge, edge, 3, 9, 3);
-
-	cvSaveImage("out1.jpg", img);
-*/
-
-  Mat srcImage = imread("whitePanle.jpg");
-
-   // imshow("Src Pic", srcImage);
-
-    Mat midImage, dstImage,dstImage1;
-    //边缘检测
-    Canny(srcImage, midImage, 50, 200, 3);
-	
-    //灰度化
-    cvtColor(midImage, dstImage, CV_GRAY2BGR);
-
-/*	
-    // 定义矢量结构存放检测出来的直线
-    vector<Vec2f> lines;
-    //通过这个函数，我们就可以得到检测出来的直线集合了
-    HoughLines(midImage, lines, 1, CV_PI / 180, 150, 0, 0);
-	
-    //这里注意第五个参数，表示阈值，阈值越大，表明检测的越精准，速度越快，得到的直线越少（得到的直线都是很有把握的直线）
-    //这里得到的lines是包含rho和theta的，而不包括直线上的点，所以下面需要根据得到的rho和theta来建立一条直线
-
-    //依次画出每条线段
-    for (size_t i = 0; i < lines.size(); i++)
-    {
-        float rho = lines[i][0]; //就是圆的半径r
-        float theta = lines[i][1]; //就是直线的角度
-        Point pt1, pt2;
-        double a = cos(theta), b = sin(theta);
-        double x0 = a*rho, y0 = b*rho;
-        pt1.x = cvRound(x0 + 1000 * (-b));
-        pt1.y = cvRound(y0 + 1000*(a));
-        pt2.x = cvRound(x0 - 1000*(-b));
-        pt2.y = cvRound(y0 - 1000 * (a));
-//LINE_AA
-        line(dstImage, pt1, pt2, Scalar(55, 100, 195), 1, 0); //Scalar函数用于调节线段颜色，就是你想检测到的线段显示的是什么颜色
-
-//        imshow("边缘检测后的图", midImage);
-//        imshow("最终效果图", dstImage);
-    }
-*/
-	//IplImage img = IplImage(dstImage1);
-
-cvThreshold(&img, &img, 75, 250, CV_THRESH_BINARY);
-
-
-
-//	IplImage img1 = IplImage(midImage);
-
-	
-//	cvSaveImage("out.jpg", &img);
-//	cvSaveImage("out_canny.jpg", &img1);	
-	
-	//src = imread("whitePanle.jpg");
-	
-	//dst.create( src.size(), src.type() );
-
-	//cvtColor( src, src_gray, CV_BGR2GRAY );
-
-	//	detected_edges: 原灰度图像
-	//detected_edges: 输出图像 (支持原地计算，可为输入图像)
-	//lowThreshold: 用户通过 trackbar设定的值。
-	//highThreshold: 设定为低阈值的3倍 (根据Canny算法的推荐)
-	//kernel_size: 设定为 3 (Sobel内核大小，内部使用)
-	//Canny( detected_edges, detected_edges, lowThreshold, lowThreshold*ratio, kernel_size );
-
-//	cvSaveImage("out.jpg", &src);
-
-	return 0;
-}
-#endif
 
 
 
@@ -406,11 +315,166 @@ void SendMessageOne()
 		waitKey(30);
 	}
 }
- 
-int main()
-{
+#endif
 
  
+
+int drawLine()
+{
+	#define SRC_FILENAME	"whitePanle.jpg"
+
+	
+ 	Mat mat = imread(SRC_FILENAME);
+	if(mat.empty())
+	{
+		printf("open file failed!\n");
+		return -1;
+	}
+
+
+
+
+	int x0 = mat.cols / 4;
+	int x1 = mat.cols * 3 / 4;
+	int y0 = mat.rows / 4;
+	int y1 = mat.rows * 3 / 4;
+
+	cv::Point p0 = cv::Point(x0,y0);
+	cv::Point p1 = cv::Point(x1, y1);
+	cv::line(mat, p0, p1, cv::Scalar(0, 0, 255), 3, 4);
+
+
+	p0.y = y1;
+	p1.y = y0;
+	cv::line(mat,p0,p1,cv::Scalar(255,0,0),3,4);
+
+
+	cv::imwrite("whitePanle_line.jpg", mat);
+
+ 	return 0;
+ }
+
+int detectEdge_Canny()
+{
+	Mat srcImage, midImage, dstImage;
+	
+	srcImage = imread("whitePanle.jpg");
+	if(srcImage.empty())
+	{
+		printf("open file failed!\n");
+		return -1;
+	}
+	
+	Canny(srcImage, midImage, 50, 200, 3);
+	
+	cvtColor(midImage, dstImage, CV_GRAY2BGR);
+	
+	cv::imwrite("whitePanle_canny.jpg", dstImage);
+	
 	return 0;
+}
+
+
+
+
+int main()
+{
+	//drawLine();
+	//detectEdge_Canny();
+	
+#if 0
+	//read jpg
+	Mat src, src_gray;
+	Mat dst;
+
+
+	int p[3];	
+
+	IplImage *img = cvLoadImage("whitePanle.jpg");	
+
+	p[0] = CV_IMWRITE_JPEG_QUALITY;	
+	p[1] = 10;	
+	p[2] = 0;	
+
+
+
+
+
+	Canny(img, edge, 3, 9, 3);
+
+	cvSaveImage("out_canny.jpg", img);
+
+	return 0;
+#endif	
+
+	//cvSaveImage("out1.jpg", img, p);
+/*
+//  Mat srcImage = imread("whitePanle.jpg");
+
+   // imshow("Src Pic", srcImage);
+
+    Mat midImage, dstImage,dstImage1;
+    //边缘检测
+    Canny(srcImage, midImage, 50, 200, 3);
+	
+    //灰度化
+    cvtColor(midImage, dstImage, CV_GRAY2BGR);
+
+/*	
+    // 定义矢量结构存放检测出来的直线
+    vector<Vec2f> lines;
+    //通过这个函数，我们就可以得到检测出来的直线集合了
+    HoughLines(midImage, lines, 1, CV_PI / 180, 150, 0, 0);
+	
+    //这里注意第五个参数，表示阈值，阈值越大，表明检测的越精准，速度越快，得到的直线越少（得到的直线都是很有把握的直线）
+    //这里得到的lines是包含rho和theta的，而不包括直线上的点，所以下面需要根据得到的rho和theta来建立一条直线
+
+    //依次画出每条线段
+    for (size_t i = 0; i < lines.size(); i++)
+    {
+        float rho = lines[i][0]; //就是圆的半径r
+        float theta = lines[i][1]; //就是直线的角度
+        Point pt1, pt2;
+        double a = cos(theta), b = sin(theta);
+        double x0 = a*rho, y0 = b*rho;
+        pt1.x = cvRound(x0 + 1000 * (-b));
+        pt1.y = cvRound(y0 + 1000*(a));
+        pt2.x = cvRound(x0 - 1000*(-b));
+        pt2.y = cvRound(y0 - 1000 * (a));
+//LINE_AA
+        line(dstImage, pt1, pt2, Scalar(55, 100, 195), 1, 0); //Scalar函数用于调节线段颜色，就是你想检测到的线段显示的是什么颜色
+
+//        imshow("边缘检测后的图", midImage);
+//        imshow("最终效果图", dstImage);
+    }
+*/
+	//IplImage img = IplImage(dstImage1);
+
+//cvThreshold(&img, &img, 75, 250, CV_THRESH_BINARY);
+
+
+
+//	IplImage img1 = IplImage(midImage);
+
+	
+//	cvSaveImage("out.jpg", &img);
+//	cvSaveImage("out_canny.jpg", &img1);	
+	
+	//src = imread("whitePanle.jpg");
+	
+	//dst.create( src.size(), src.type() );
+
+	//cvtColor( src, src_gray, CV_BGR2GRAY );
+
+	//	detected_edges: 原灰度图像
+	//detected_edges: 输出图像 (支持原地计算，可为输入图像)
+	//lowThreshold: 用户通过 trackbar设定的值。
+	//highThreshold: 设定为低阈值的3倍 (根据Canny算法的推荐)
+	//kernel_size: 设定为 3 (Sobel内核大小，内部使用)
+	//Canny( detected_edges, detected_edges, lowThreshold, lowThreshold*ratio, kernel_size );
+
+//	cvSaveImage("out.jpg", &src);
+
+//	return 0;
 }
 

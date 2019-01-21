@@ -44,6 +44,14 @@
 1. https://docs.opencv.org/2.4.9/modules/refman.html
 * 
 
+IplImage
+Mat
+CvMat
+
+在图片上画根线
+
+
+
 #### 边缘识别
 > 
 * 13

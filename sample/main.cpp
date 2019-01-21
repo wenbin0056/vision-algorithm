@@ -339,7 +339,36 @@ int img_filter()
 	return 0;
 }
 
+int img_erode_dilate()
+{
+	Mat src, srcGray;
+	
+	if(  !(src=imread("whitePanle.jpg")).data)
+	{
+		printf("open file failed!\n");
+		return -1;	
+	}
+	
 
+	cv::cvtColor(src, srcGray, CV_BGR2GRAY);  
+
+	Mat segDst, dilDst, eroDst;
+
+	//分通道二值化
+	cv::inRange(srcGray, Scalar(0,0,100), Scalar(40,30,255), segDst);
+
+
+	Mat ellment = getStructuringElement(MORPH_ELLIPSE, Size(5,5));
+
+	dilate(segDst, dilDst, ellment);
+
+	erode(segDst, eroDst, ellment);
+
+	cv::imwrite("whitePanle_dilate.jpg", dilDst);
+	cv::imwrite("whitePanle_erode.jpg", eroDst);
+	
+	return 0;
+}
 
 int detect_white_panel()
 {
@@ -460,8 +489,8 @@ int detect_white_panel()
 int main()
 {
 
-	detect_white_panel();
-	
+
+img_erode_dilate();	
 
 	return 0;
 
@@ -495,7 +524,10 @@ int main()
 				break;		
 			case '7':
 				detect_draw_Contours();
-				break;				
+				break;			
+			case '8':
+				img_erode_dilate();
+				break;
 			case 'q':
 			case 'Q':
 				return 0;

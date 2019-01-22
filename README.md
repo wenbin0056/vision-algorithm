@@ -3,8 +3,7 @@
 
 #*Opencv*
 ===
-### ubuntu下OpenCV的安装
-* 下载：https://opencv.org/releases.html 下载source。3.4.1
+
 
 >#####升级cmake版本
 1. wget https://cmake.org/files/v3.12/cmake-3.12.0.tar.gz (g++版本要求高，使用下面低版本的)
@@ -26,26 +25,34 @@
 7. sudo make install
 8. gcc -v
 
-#### 安装glibc
-- wget http://ftp.gnu.org/gnu/glibc/glibc-2.12.2.tar.gz
+#### 安装glibc  （5.5gcc）
+>
+先在一个可以运行的带有老 libc 和 gcc 的系统上，用老 gcc 编译出一个新版本的 gcc + 老 libc，再用这个新 gcc 编译出一个新 gcc + 新 libc，再用这套东东编译整个新系统。
+
+- 查看系统glibc版本：ldd --version
+- glibc是linux 系统中最底层的api（应用程序开发接口）
+- 几乎其它任何的运行库都会倚赖于glibc
+- wget http://ftp.gnu.org/gnu/glibc/glibc-2.22.tar.gz
 - tar -zxvf glibc-2.14.tar.gz
-- cd glibc-2.12
+- cd glibc-2.14
 - mkdir build
 - cd build
-- ../configure --prefix=/data/apps/glibc2.12
+- ../configure --prefix=/data/apps/glibc2.14
 - make -j4
 - make install
 
 * ~~~sudo apt-get install cmake ~~~
 
-
+### ubuntu下OpenCV的安装
+* 下载：https://opencv.org/releases.html 下载source。3.4.1
 * sudo apt-get install build-essential libgtk2.0-dev libavcodec-dev libavformat-dev libjpeg.dev libtiff4.dev libswscale-dev libjasper-dev  
 * mkdir my_build_dir
 * cd  my_build_dir
 * cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/usr/local ..
 * make 
 * sudo make install
-* export LD_LIBRARY_PATH=/usr/local/lib/
+* export LD_LIBRARY_PATH+=:/usr/local/lib/
+export PATH+=/usr/local/lib/
 
 
 
@@ -78,8 +85,26 @@ https://blog.csdn.net/u014525760/article/details/78737379
 
 rpm包搜索地址:http://rpm.pbone.net/
 
-
-
+### OpenEXR
+#### Install(no success)
+>
+- 下载：http://www.openexr.com/downloads.html； ；ImlBase1.0.2.tar.gz；OpenEXR 1.7.0
+- http://zlib.net 下载Zlib 1.2.7 
+- sudo tar -zxvf ilmbase-1.0.2.tar.gz 
+- sudo tar -zxvf openexr-1.7.0.tar.gz 
+- sudo tar -zxvf zlib-1.2.7.tar.gz
+- cd ilmbase-1.0.2/
+- sudo ./configure
+- sudo make
+- sudo make install
+- cd zlib-1.2.11/
+- sudo ./configure
+- sudo make
+- sudo make install
+- openexr-1.7.0
+- sudo ./configure
+- sudo make
+- sudo make install
 
 ### Opencv Function
 

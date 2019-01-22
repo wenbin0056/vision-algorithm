@@ -15,7 +15,8 @@
 5. cmake -version
 
 >#####升级g++编译器：
-1. wget -c http://mirrors.ustc.edu.cn/gnu/gcc/gcc-4.1.2/gcc-4.1.2.tar.bz2      
+1. wget -c http://mirrors.ustc.edu.cn/gnu/gcc/gcc-4.1.2/gcc-4.1.2.tar.bz2    
+-  wget -c http://mirrors.ustc.edu.cn/gnu/gcc/gcc-5.3.0/gcc-5.3.0.tar.gz  
 2. ./contrib/download_prerequisites
 3. mkdir gcc-build-8.2.0
 4.  cd gcc-build-8.2.0  
@@ -40,6 +41,7 @@
 
 ### 嵌入式移植入OPENCV
 ===
+https://blog.csdn.net/u014525760/article/details/78737379
 > 
 * 解压。
 * cd opencv-2.4.13.6/
@@ -53,6 +55,18 @@
 * /opt/hisi-linux/x86-arm/aarch64-himix100-linux/bin/aarch64-himix100-linux-gcc
 * /opt/hisi-linux/x86-arm/aarch64-himix100-linux/bin/aarch64-himix100-linux-g++
 * finish
+
+#### 升级cmake-gui
+>
+- http://rpm.pbone.net/index.php3?stat=3&search=cmake-gui&srodzaj=3
+- 下载 cmake-gui-3.5.0-237.1.x86_64.rpm； http://rpm.pbone.net/index.php3/stat/4/idpl/33395678/dir/opensuse_13.x/com/cmake-gui-3.5.0-237.1.x86_64.rpm.html
+- rpm -ivh cmake-gui-3.5.0-237.1.x86_64.rpm
+- yum install cmake-gui-3.5.0-237.1.x86_64.rpm 自动安装依赖包
+
+
+
+
+rpm包搜索地址:http://rpm.pbone.net/
 
 
 

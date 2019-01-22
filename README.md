@@ -16,7 +16,8 @@
 
 >#####升级g++编译器：
 1. wget -c http://mirrors.ustc.edu.cn/gnu/gcc/gcc-4.1.2/gcc-4.1.2.tar.bz2    
--  wget -c http://mirrors.ustc.edu.cn/gnu/gcc/gcc-5.3.0/gcc-5.3.0.tar.gz  
+-  wget -c http://mirrors.ustc.edu.cn/gnu/gcc/gcc-5.5.0/gcc-5.3.0.tar.gz  
+-  wget -c http://mirrors.ustc.edu.cn/gnu/gcc/gcc-5.5.0/gcc-5.5.0.tar.gz  
 2. ./contrib/download_prerequisites
 3. mkdir gcc-build-8.2.0
 4.  cd gcc-build-8.2.0  
@@ -25,6 +26,15 @@
 7. sudo make install
 8. gcc -v
 
+#### 安装glibc
+- wget http://ftp.gnu.org/gnu/glibc/glibc-2.12.2.tar.gz
+- tar -zxvf glibc-2.14.tar.gz
+- cd glibc-2.12
+- mkdir build
+- cd build
+- ../configure --prefix=/data/apps/glibc2.12
+- make -j4
+- make install
 
 * ~~~sudo apt-get install cmake ~~~
 
@@ -39,7 +49,7 @@
 
 
 
-### 嵌入式移植入OPENCV
+#### 嵌入式移植入OPENCV
 ===
 https://blog.csdn.net/u014525760/article/details/78737379
 > 
@@ -154,10 +164,10 @@ rpm包搜索地址:http://rpm.pbone.net/
 #### 特征分析
 >
 1. 尺度空间
-2. 特征描述算子，
-	- SIFT特征
-	- SURF特征
-	- ORB特征
+2. 特征描述算子
+	- SIFT特征：
+	- SURF特征：
+	- ORB特征：
 * 方向梯度直方图HOG
 * 局部二值模型LBP
 * Haar特征描述
@@ -165,8 +175,17 @@ rpm包搜索地址:http://rpm.pbone.net/
 
 
 #### 图像拼接
+https://www.cnblogs.com/skyfsm/p/7411961.html
 > 
-1. 
+- 对每幅图进行特征点提取
+- 对对特征点进行匹配
+- 进行图像配准
+- 把图像拷贝到另一幅图像的特定位置
+- 对重叠边界进行特殊处理
+
+
+
+
  
 #### 背景建模
 

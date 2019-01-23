@@ -41,6 +41,12 @@
 - make -j4
 - make install
 
+>
+- 更新libstdc++.so.6
+- 查看glinc支持的版本:strings /usr/lib/x86_64-linux-gnu/libstdc++.so.6 | grep GLIBCXX
+- 查找位置：locate libstdc++.so.6
+- 本机找或者网上下载，用新版本的替换，重新创建链接文件
+
 * ~~~sudo apt-get install cmake ~~~
 
 ### ubuntu下OpenCV的安装
@@ -51,8 +57,28 @@
 * cmake -D CMAKE_BUILD_TYPE=Release -D CMAKE_INSTALL_PREFIX=/usr/local ..
 * make 
 * sudo make install
-* export LD_LIBRARY_PATH+=:/usr/local/lib/
-export PATH+=/usr/local/lib/
+
+- 下载opencv和opencv_contrib，版本号一样，下载github：https://blog.csdn.net/echoamor/article/details/83022352
+- opencv_contrib解压后放入opencv目录下
+- mkdir build
+- cd build
+- cmake-gui ..
+- configure
+- CMAKE_BUILD_TYPE 值处输入RELEASE
+- OPENCV_EXTRA_MODULES_PATH 输入opencv_contrib/modules
+- BUILD_opencv_world 选择
+- generate
+- 推出cmake-gui， make  
+
+>
+#### opencv_contrib
+>
+- 
+- 下载github：https://blog.csdn.net/echoamor/article/details/83022352
+
+
+
+
 
 
 

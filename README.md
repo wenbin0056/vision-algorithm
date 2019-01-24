@@ -74,7 +74,8 @@
 #### opencv_contrib
 >
 - 
-- 下载github：https://blog.csdn.net/echoamor/article/details/83022352
+- 下载github：https://github.com/opencv/opencv_contrib/tree/3.4.3
+- https://blog.csdn.net/echoamor/article/details/83022352
 
 
 
@@ -94,10 +95,48 @@ https://blog.csdn.net/u014525760/article/details/78737379
 * source code：/work/arm-opencv/opencv-2.4.13.6
 * build：/usr/local/opencv/config_opencv
 * configure-> unix Makefile -> specify option for cross-cpmpiling
-* LINUX 4.9.37
 * /opt/hisi-linux/x86-arm/aarch64-himix100-linux/bin/aarch64-himix100-linux-gcc
 * /opt/hisi-linux/x86-arm/aarch64-himix100-linux/bin/aarch64-himix100-linux-g++
 * finish
+* 配置选项，取消WITH_TIFF,取消BUILD_SHARED_LIBS
+* generate
+* make
+
+编译错误：
+>
+- sudo apt-get install lib32stdc++6; 安装ubuntu，需要安装这个库才能找到路径；否则添加了PATH也一直报错”No such file or directory“
+- 错误
+>
+- 
+```
+modules/highgui/src/cap_dc1394_v2.cpp:58:27: fatal error: dc1394/dc1394.h: No such file or directory
+#include <dc1394/dc1394.h>
+```
+在cmake-gui中去掉highgui模块的编译
+
+
+
+```
+apt-get install build-essential
+apt-get install cmake cmake-gui
+apt-get install pkg-config
+apt-get install libgtk2.0-0 libgtk2.0-dev
+apt-get install libpng12-0 libpng12-dev libpng++-dev libpng3
+apt-get install libpnglite-dev libpngwriter0-dev libpngwriter0c2
+apt-get install zlib1g-dbg zlib1g zlib1g-dev
+apt-get install libjasper-dev libjasper-runtime libjasper1
+apt-get install pngtools libtiff4-dev libtiff4 libtiffxx0c2 libtiff-tools
+apt-get install libjpeg8 libjpeg8-dev libjpeg8-dbg libjpeg-prog
+apt-get install ffmpeg libavcodec-dev libavcodec53 libavformat53 libavformat-dev libswscale-dev
+apt-get install libgstreamer0.10-0-dbg libgstreamer0.10-0  libgstreamer0.10-dev
+apt-get install libxine1-ffmpeg  libxine-dev libxine1-bin
+apt-get install libunicap2 libunicap2-dev
+apt-get install libdc1394-22-dev libdc1394-22 libdc1394-utils
+apt-get install swig
+apt-get install libv4l-0 libv4l-dev
+apt-get install python-numpy
+apt-get install libpython2.7 python-dev python2.7-dev
+```
 
 #### 升级cmake-gui
 >
